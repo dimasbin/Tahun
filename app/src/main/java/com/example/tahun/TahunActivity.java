@@ -52,12 +52,14 @@ public class TahunActivity extends AppCompatActivity implements TahunContract.Vi
             }
         });
 
+        presenter.bacaTahun();
+
 //        dbTblTahun = new DataHelperTahun(TahunActivity.this);
 //        id = new ArrayList<>();
 //        id_tahun = new ArrayList<>();
 //        nama_tahun = new ArrayList<>();
 //        readData();
-        presenter.bacaTahun();
+
 
 
 

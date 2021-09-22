@@ -4,6 +4,7 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.util.Log;
 import android.widget.Toast;
 
 import com.example.tahun.Adapter.CustomAdapter;
@@ -35,13 +36,16 @@ public class TahunPresenter extends SQLiteOpenHelper implements TahunContract.Pr
         } else {
             SQLiteDatabase sql = getWritableDatabase();
             sql.execSQL("INSERT INTO tahun(idtahun,tahun) VALUES('"+id+"','"+nama+"')");
+            String [] namaBulan = {"Januari","Februari","Maret","April","Mei","Juni","Juli","Agustus","September","Oktober","November","Desember"};
+            for (int i = 0;i < namaBulan.length; i++){
+                sql.execSQL("INSERT INTO bulan(idbulan,bulan,jumlah) VALUES('"+nama+"','"+namaBulan[i]+"','"+0+"')");
+                Log.d("Database Bulan","BerhasiL Menambah "+namaBulan[i]);
+            }
 //            DataHelperTahun myDB = new DataHelperTahun();
 //            myDB.tambahTahun(id,nama);
             view.messageSuccess("Berhasil Menambah Tahun");
             view.refreshPage();
         }
-
-
 
     }
 
