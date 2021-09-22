@@ -14,16 +14,19 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.tahun.Adapter.CustomAdapterHari;
+import com.example.tahun.Interface.HariContract;
+import com.example.tahun.Presenter.HariPresenter;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 
-public class HariActivity extends AppCompatActivity {
+public class HariActivity extends AppCompatActivity implements HariContract.View {
 
     RecyclerView recyclerView;
     protected Cursor cursor;
     DataHelperTahun dbTblHari;
+    HariContract.Presenter presenter;
 
     public static HariActivity hariActivity;
     private TextView total;
@@ -45,6 +48,8 @@ public class HariActivity extends AppCompatActivity {
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd-MM-yyyy");
         Tanggal = simpleDateFormat.format(calendar.getTime());
 
+        presenter = new HariPresenter(this,this);
+
         Log.d("Isi Yang Di klik HARIAN",getIntent().getStringExtra("id"));
         Log.d("Isi Yang Di klik HARIAN",getIntent().getStringExtra("id_tahun"));
         Log.d("Isi Yang Di klik HARIAN",getIntent().getStringExtra("nama_bulan"));
@@ -60,38 +65,38 @@ public class HariActivity extends AppCompatActivity {
         idTahun = getIntent().getStringExtra("id_tahun");
         namaBulan = getIntent().getStringExtra("nama_bulan");
 
+        presenter.bacaItem(idTahun,namaBulan);
+
 
         dbTblHari = new DataHelperTahun(HariActivity.this);
-        id = new ArrayList<>();
-        id_tahun = new ArrayList<>();
-        nama_bulan = new ArrayList<>();
-        nama_item = new ArrayList<>();
-        harga_item = new ArrayList<>();
-        tanggal_item = new ArrayList<>();
+//        id = new ArrayList<>();
+//        id_tahun = new ArrayList<>();
+//        nama_bulan = new ArrayList<>();
+//        nama_item = new ArrayList<>();
+//        harga_item = new ArrayList<>();
+//        tanggal_item = new ArrayList<>();
 
         btnTambahItem.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                DataHelperTahun myDB = new DataHelperTahun(HariActivity.this);
                 Log.d("Isi Klik Tambah Item",idTahun);
                 Log.d("Isi Klik Tambah Item",namaBulan);
                 Log.d("Isi Klik Tambah Item",namaItem.getText().toString());
                 Log.d("Isi Klik Tambah Item",jumlahItem.getText().toString());
                 Log.d("Isi Klik Tambah Item",Tanggal);
-                myDB.tambahItem(Integer.valueOf(idTahun),namaBulan,namaItem.getText().toString().trim(), Integer.valueOf(jumlahItem.getText().toString().trim()),Tanggal);
-                finish();
+                presenter.tambahItem(Integer.valueOf(idTahun),namaBulan,namaItem.getText().toString().trim(),Integer.valueOf(jumlahItem.getText().toString().trim()),Tanggal);
+
+//                myDB.tambahItem(Integer.valueOf(idTahun),namaBulan,namaItem.getText().toString().trim(), Integer.valueOf(jumlahItem.getText().toString().trim()),Tanggal);
+//                finish();
 
             }
         });
 
 
 
-        storeDatainArray(idTahun,namaBulan);
+//        storeDatainArray(idTahun,namaBulan);
 
-        customAdapterHari = new CustomAdapterHari(HariActivity.this,this,id,id_tahun,nama_bulan,nama_item,harga_item,tanggal_item);
-        recyclerView.setAdapter(customAdapterHari);
-        recyclerView.setLayoutManager(new LinearLayoutManager(HariActivity.this));
-        hariActivity = this;
+
 
 
 
@@ -111,5 +116,32 @@ public class HariActivity extends AppCompatActivity {
                 tanggal_item.add(cursor.getString(5));
             }
         }
+    }
+
+    @Override
+    public void refreshPage() {
+        finish();
+        recreate();
+        overridePendingTransition(0, 0);
+        startActivity(getIntent());
+        overridePendingTransition(0, 0);
+    }
+
+    @Override
+    public void readData(ArrayList id, ArrayList idtahun, ArrayList idbulan, ArrayList namaitem, ArrayList harga, ArrayList tanggal) {
+        customAdapterHari = new CustomAdapterHari(HariActivity.this,this,id,idtahun,idbulan,namaitem,harga,tanggal);
+        recyclerView.setAdapter(customAdapterHari);
+        recyclerView.setLayoutManager(new LinearLayoutManager(HariActivity.this));
+        hariActivity = this;
+    }
+
+    @Override
+    public void messageSuccess(String message) {
+        Toast.makeText(this, message, Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public void messageFailed(String message) {
+        Toast.makeText(this, message, Toast.LENGTH_SHORT).show();
     }
 }

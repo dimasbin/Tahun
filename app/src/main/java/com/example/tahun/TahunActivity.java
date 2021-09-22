@@ -70,6 +70,7 @@ public class TahunActivity extends AppCompatActivity implements TahunContract.Vi
 
     @Override
     public void refreshPage() {
+        finish();
         recreate();
         overridePendingTransition(0, 0);
         startActivity(getIntent());
