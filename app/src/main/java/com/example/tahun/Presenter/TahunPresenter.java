@@ -17,9 +17,7 @@ import java.util.ArrayList;
 public class TahunPresenter extends SQLiteOpenHelper implements TahunContract.Presenter {
 
     TahunContract.View view;
-    Context context;
     ArrayList<String> id,id_tahun,nama_tahun;
-    CustomAdapter customAdapter;
     Cursor cursor;
     DataHelperTahun dbTblTahun;
 
@@ -59,7 +57,7 @@ public class TahunPresenter extends SQLiteOpenHelper implements TahunContract.Pr
         if (db != null){
            cursor = db.rawQuery("SELECT * FROM tahun",null);
             if (cursor.getCount() == 0){
-                Toast.makeText(context, "Data Kosong", Toast.LENGTH_SHORT).show();
+                view.messageFailed("Data Kosong");
             } else {
                 while (cursor.moveToNext()){
                     id.add(cursor.getString(0));
@@ -69,8 +67,6 @@ public class TahunPresenter extends SQLiteOpenHelper implements TahunContract.Pr
                 }
             }
         }
-
-
 
     }
 
