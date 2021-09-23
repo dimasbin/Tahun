@@ -23,14 +23,11 @@ public class TahunActivity extends AppCompatActivity implements TahunContract.Vi
     TahunContract.Presenter presenter;
     RecyclerView recyclerView;
     protected Cursor cursor;
-    DataHelperTahun dbTblTahun;
-    Context context;
 
     public static TahunActivity tahunActivity;
     private EditText namaTahun;
     private Button btnTambahTahun;
 
-    ArrayList<String> id,id_tahun,nama_tahun;
     CustomAdapter customAdapter;
 
 
@@ -54,16 +51,6 @@ public class TahunActivity extends AppCompatActivity implements TahunContract.Vi
 
         presenter.bacaTahun();
 
-//        dbTblTahun = new DataHelperTahun(TahunActivity.this);
-//        id = new ArrayList<>();
-//        id_tahun = new ArrayList<>();
-//        nama_tahun = new ArrayList<>();
-//        readData();
-
-
-
-
-
     }
 
 
@@ -83,16 +70,6 @@ public class TahunActivity extends AppCompatActivity implements TahunContract.Vi
         recyclerView.setAdapter(customAdapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(TahunActivity.this));
         tahunActivity = this;
-//        cursor = dbTblTahun.readTahun();
-//        if (cursor.getCount() == 0){
-//            Toast.makeText(TahunActivity.this, "Data Kosong", Toast.LENGTH_SHORT).show();
-//        } else {
-//            while (cursor.moveToNext()){
-//                id.add(cursor.getString(0));
-//                id_tahun.add(cursor.getString(1));
-//                nama_tahun.add(cursor.getString(2));
-//            }
-//        }
     }
 
     @Override

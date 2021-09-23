@@ -9,6 +9,7 @@ import android.widget.Toast;
 
 import com.example.tahun.HariActivity;
 import com.example.tahun.Interface.HariContract;
+import com.example.tahun.Model.mHari;
 
 import java.util.ArrayList;
 
@@ -35,23 +36,32 @@ public class HariPresenter extends SQLiteOpenHelper implements HariContract.Pres
     }
 
     @Override
-    public void tambahItem(Integer idtahun, String idbulan, String namaitem, Integer harga, String tanggal) {
+    public void tambahItem(Integer idtahun, String idbulan, String namaitem, Integer harga, String tanggal,Integer Total) {
         if (id_tahun.equals(null) || idbulan.equals(null) || namaitem.equals(null) || harga.equals(null) || tanggal.equals(null)){
             view.messageFailed("Gagal Menambah Tahun");
         } else {
             SQLiteDatabase sql = getWritableDatabase();
-            sql.execSQL("INSERT INTO hari(idtahun,idbulan,namaitem,harga,tanggal) VALUES('"+idtahun+"','"+idbulan+"','"+namaitem+"','"+harga+"','"+tanggal+"')");
-
-//            DataHelperTahun myDB = new DataHelperTahun();
-//            myDB.tambahTahun(id,nama);
+            mHari newHr = new mHari();
+            newHr.setIdtahun(idtahun);
+            newHr.setIdbulan(idbulan);
+            newHr.setNamaitem(namaitem);
+            newHr.setHarga(harga);
+            newHr.setTanggal(tanggal);
+            sql.execSQL("INSERT INTO hari(idtahun,idbulan,namaitem,harga,tanggal) VALUES('"+newHr.getIdtahun()+"','"+newHr.getIdbulan()+"','"+newHr.getNamaitem()+"','"+newHr.getHarga()+"','"+newHr.getTanggal()+"')");
+            updateTotal(idtahun,idbulan,Total);
             view.messageSuccess("Berhasil Menambah Item");
             view.refreshPage();
         }
     }
 
     @Override
-    public void updateTotal() {
-
+    public void updateTotal(Integer id,String nabul,Integer Total) {
+        SQLiteDatabase sql = getWritableDatabase();
+        Log.d("Isi pas update",id.toString());
+        Log.d("Isi pas update",nabul);
+        Log.d("Isi pas update",Total.toString());
+        sql.execSQL("UPDATE bulan SET jumlah = "+Total+" WHERE idbulan = "+id+" AND bulan = "+"'"+nabul+"'");
+        view.messageSuccess("Berhasil Update Harga");
     }
 
     @Override

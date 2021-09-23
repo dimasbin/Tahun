@@ -11,8 +11,8 @@ public interface HariContract {
     }
 
     interface Presenter{
-        void tambahItem(Integer idtahun,String idbulan,String namaitem, Integer harga, String tanggal);
-        void updateTotal();
+        void tambahItem(Integer idtahun,String idbulan,String namaitem, Integer harga, String tanggal,Integer Total);
+        void updateTotal(Integer idtahun,String idbulan,Integer harga);
         void bacaItem(String id,String nama);
     }
 }

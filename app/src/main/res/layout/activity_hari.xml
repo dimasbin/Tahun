@@ -17,9 +17,10 @@
 
     <EditText
         android:id="@+id/et_nama_item"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="20dp"
+        android:layout_margin="10dp"
         android:ems="10"
         android:inputType="textPersonName"
         android:hint="Nama Barang Ex : Beras"
@@ -30,14 +31,15 @@
 
     <EditText
         android:id="@+id/et_harga_item"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="8dp"
+        android:layout_margin="10dp"
         android:ems="10"
-        android:inputType="number"
         android:hint="Harga Barang ex : 20000"
+        android:inputType="number"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.502"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/et_nama_item" />
 
@@ -56,24 +58,29 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
         android:text="Rp"
+        android:visibility="invisible"
         app:layout_constraintEnd_toStartOf="@+id/tv_total_harga"
-        app:layout_constraintHorizontal_bias="0.513"
+        app:layout_constraintHorizontal_bias="0.23"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/et_harga_item" />
 
     <TextView
         android:id="@+id/tv_total_harga"
+        android:visibility="invisible"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
+        android:layout_marginEnd="252dp"
         android:text="TextView"
+        app:layout_constraintBottom_toTopOf="@+id/btn_tambah_item"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/et_harga_item" />
+        app:layout_constraintTop_toBottomOf="@+id/et_harga_item"
+        app:layout_constraintVertical_bias="0.0" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerView_Hari"
-        android:layout_width="411dp"
-        android:layout_height="416dp"
+        android:layout_width="match_parent"
+        android:layout_height="200dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/btn_tambah_item" />

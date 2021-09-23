@@ -10,6 +10,8 @@ import android.widget.Toast;
 import com.example.tahun.Adapter.CustomAdapter;
 import com.example.tahun.DataHelperTahun;
 import com.example.tahun.Interface.TahunContract;
+import com.example.tahun.Model.mBulan;
+import com.example.tahun.Model.mTahun;
 import com.example.tahun.TahunActivity;
 
 import java.util.ArrayList;
@@ -33,10 +35,19 @@ public class TahunPresenter extends SQLiteOpenHelper implements TahunContract.Pr
             view.messageFailed("Gagal Menambah Tahun");
         } else {
             SQLiteDatabase sql = getWritableDatabase();
-            sql.execSQL("INSERT INTO tahun(idtahun,tahun) VALUES('"+id+"','"+nama+"')");
+            mTahun newThn = new mTahun();
+            newThn.setIdTahun(id);
+            newThn.setNamaTahun(nama);
+            sql.execSQL("INSERT INTO tahun(idtahun,tahun) VALUES('"+newThn.getIdTahun()+"','"+newThn.getNamaTahun()+"')");
+
+
             String [] namaBulan = {"Januari","Februari","Maret","April","Mei","Juni","Juli","Agustus","September","Oktober","November","Desember"};
             for (int i = 0;i < namaBulan.length; i++){
-                sql.execSQL("INSERT INTO bulan(idbulan,bulan,jumlah) VALUES('"+nama+"','"+namaBulan[i]+"','"+0+"')");
+                mBulan newBln = new mBulan();
+                newBln.setIdbulan(nama);
+                newBln.setNamabulan(namaBulan[i]);
+                newBln.setJumlah(0);
+                sql.execSQL("INSERT INTO bulan(idbulan,bulan,jumlah) VALUES('"+newBln.getIdbulan()+"','"+newBln.getNamabulan()+"','"+newBln.getJumlah()+"')");
                 Log.d("Database Bulan","BerhasiL Menambah "+namaBulan[i]);
             }
 //            DataHelperTahun myDB = new DataHelperTahun();

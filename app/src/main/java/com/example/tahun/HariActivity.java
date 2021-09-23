@@ -24,7 +24,6 @@ import java.util.Calendar;
 public class HariActivity extends AppCompatActivity implements HariContract.View {
 
     RecyclerView recyclerView;
-    protected Cursor cursor;
     DataHelperTahun dbTblHari;
     HariContract.Presenter presenter;
 
@@ -32,11 +31,10 @@ public class HariActivity extends AppCompatActivity implements HariContract.View
     private TextView total;
     private EditText namaItem,jumlahItem;
     private Button btnTambahItem;
-
-    ArrayList<String> id,id_tahun,nama_bulan,nama_item,harga_item,tanggal_item;
     CustomAdapterHari customAdapterHari;
 
-    String idTahun,namaBulan,Tanggal,isiNamaBarang,isiHargaBarang;
+    String idTahun,namaBulan,Tanggal,totalSekarang,isi;
+    Integer currentValue,Total,isiJumlah;
 
 
     @Override
@@ -64,58 +62,29 @@ public class HariActivity extends AppCompatActivity implements HariContract.View
 
         idTahun = getIntent().getStringExtra("id_tahun");
         namaBulan = getIntent().getStringExtra("nama_bulan");
+        totalSekarang = getIntent().getStringExtra("jumlah");
+        total.setText(totalSekarang);
 
         presenter.bacaItem(idTahun,namaBulan);
 
 
-        dbTblHari = new DataHelperTahun(HariActivity.this);
-//        id = new ArrayList<>();
-//        id_tahun = new ArrayList<>();
-//        nama_bulan = new ArrayList<>();
-//        nama_item = new ArrayList<>();
-//        harga_item = new ArrayList<>();
-//        tanggal_item = new ArrayList<>();
+
+
+
 
         btnTambahItem.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Log.d("Isi Klik Tambah Item",idTahun);
-                Log.d("Isi Klik Tambah Item",namaBulan);
-                Log.d("Isi Klik Tambah Item",namaItem.getText().toString());
-                Log.d("Isi Klik Tambah Item",jumlahItem.getText().toString());
-                Log.d("Isi Klik Tambah Item",Tanggal);
-                presenter.tambahItem(Integer.valueOf(idTahun),namaBulan,namaItem.getText().toString().trim(),Integer.valueOf(jumlahItem.getText().toString().trim()),Tanggal);
-
-//                myDB.tambahItem(Integer.valueOf(idTahun),namaBulan,namaItem.getText().toString().trim(), Integer.valueOf(jumlahItem.getText().toString().trim()),Tanggal);
-//                finish();
-
+                isi = jumlahItem.getText().toString();
+                currentValue = Integer.parseInt(totalSekarang);
+                Total = (Integer.valueOf(isi)+currentValue);
+                Log.d("Isi isi",isi);
+                Log.d("Isi current Value",String.valueOf(currentValue));
+                Log.d("Isi Jumlah",String.valueOf(Total));
+                total.setText(String.valueOf(Total));
+                presenter.tambahItem(Integer.valueOf(idTahun),namaBulan,namaItem.getText().toString().trim(),Integer.valueOf(jumlahItem.getText().toString().trim()),Tanggal,Total);
             }
         });
-
-
-
-//        storeDatainArray(idTahun,namaBulan);
-
-
-
-
-
-    }
-
-    private void storeDatainArray(String idTahun,String namaBulan) {
-        cursor = dbTblHari.readHari(idTahun,namaBulan);
-        if (cursor.getCount() == 0){
-            Toast.makeText(HariActivity.this, "Data Kosong", Toast.LENGTH_SHORT).show();
-        } else {
-            while (cursor.moveToNext()){
-                id.add(cursor.getString(0));
-                id_tahun.add(cursor.getString(1));
-                nama_bulan.add(cursor.getString(2));
-                nama_item.add(cursor.getString(3));
-                harga_item.add(cursor.getString(4));
-                tanggal_item.add(cursor.getString(5));
-            }
-        }
     }
 
     @Override
